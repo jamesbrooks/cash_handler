@@ -27,7 +27,7 @@ module CashHandler
         @rates[code]
       else
         # Can't find a rate by that code
-        raise Exception.new("'#{code}' is not a supported currency code")
+        raise CashHandler::Exception.new("'#{code}' is not a supported currency code")
       end
     end
   end

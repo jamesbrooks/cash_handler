@@ -8,7 +8,7 @@ module CashHandler
     
     # Fetches the exchange rate of a currency against the USD
     def get(code)
-      @cache.get(code)
+      @cache.get(code.to_s.upcase)
     end
     
     # Converts a value from one currency to another
