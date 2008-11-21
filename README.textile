@@ -7,6 +7,34 @@ h2. Requirements and Installation
 * Install the hpricot gem  (gem install hpricot)
 * Install the cash_handler plugin  (script/plugin install git://github.com/JamesBrooks/cash_handler.git)
 
+h2. Usage
+
+<pre><code>
+  c = CashHandler::Base.new
+  
+  # Get the current exchange rate of the AUD against the USD (currency code strings are case in-sensitive, can also be symbols)
+  c.get('AUD')
+  => 0.619099
+  
+  # Get the current exchange rate of the AUD against the GBP
+  c.get('AUD', :against => 'GBP')
+  => 0.418621272567449
+  
+  # Convert
+  c.convert(10, :aud, :usd)
+  => 6.19099
+  
+  # Force the converstion rates cache to reload currencies
+  c.cache.expire
+  
+  # The CashHandler::Cache has a default cache life of one day, this can be overridden in one of two ways
+  # Upon creation
+  c = CashHandler::Base.new(30.minutes)
+  
+  # During operation
+  c.cache.ttl = 30.minutes
+</code></pre>
+
 h2. Copyright and License
 
 Copyright (c) 2008 James Brooks, released under the MIT license
