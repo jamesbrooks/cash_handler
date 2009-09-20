@@ -1,10 +1,10 @@
 module CashHandler
   class Base
-    attr_accessor :cache
+    attr_accessor :cache, :backup_rates_file_location
     
     # Init the CashHandler (and cache), with a default TTL of 1 day
-    def initialize(ttl=1.day)
-      @cache = CashHandler::Cache.new(ttl)
+    def initialize(ttl=1.day, backup_rates_file_location = nil)
+      @cache = CashHandler::Cache.new(ttl, backup_rates_file_location)
     end
     
     # Fetches the exchange rate of a currency against the USD

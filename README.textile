@@ -35,6 +35,15 @@ h2. Usage
   c.cache.ttl = 30.minutes
 </code></pre>
 
+h2. Backup rates in case x-rates.com is inaccessible
+
+You may configure cash_handler to create a backup file every time it pulls rates from x-rates.com.  In the event that x-rates.com is inaccessible, the rates stored in the backup file will be used.
+
+<pre><code>
+  # Configure cash_handler to persist rates to our app's log directory
+  c = CacheHandler::Base.new(1.day, "#{RAILS_ROOT}/log/rates_backup.yml")
+</code></pre>
+
 h2. Copyright and License
 
 Copyright (c) 2008 James Brooks, released under the MIT license
