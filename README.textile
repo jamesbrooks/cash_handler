@@ -41,7 +41,7 @@ You may configure cash_handler to create a backup file every time it pulls rates
 
 <pre><code>
   # Configure cash_handler to persist rates to our app's log directory
-  c = CacheHandler::Base.new(1.day, "#{RAILS_ROOT}/log/rates_backup.yml")
+  c = CashHandler::Base.new(1.day, "#{RAILS_ROOT}/log/rates_backup.yml")
 </code></pre>
 
 h2. Copyright and License
