@@ -3,8 +3,13 @@ module CashHandler
     attr_accessor :cache, :backup_rates_file_location
     
     # Init the CashHandler (and cache), with a default TTL of 1 day
-    def initialize(ttl=1.day, backup_rates_file_location = nil)
-      @cache = CashHandler::Cache.new(ttl, backup_rates_file_location)
+    def initialize(options={})
+      options = {
+        :ttl => 1.day,
+        :backup_rates_file_location => "#{RAILS_ROOT}/tmp/rates.yml"
+      }.merge(options)
+
+      @cache = CashHandler::Cache.new(options)
     end
     
     # Fetches the exchange rate of a currency against the USD
