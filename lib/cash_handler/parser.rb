@@ -3,25 +3,28 @@ require 'yaml'
 
 module CashHandler
 
-  # Parses exchange rates sourced from x-rates.com
+  # Parses exchange rates sourced from themoneyconverter.com/USD/rss.xml
   class Parser
+
     attr_accessor :backup_rates_file_location
 
     def initialize(backup_rates_file_location = nil)
       @backup_rates_file_location = backup_rates_file_location
     end
 
-    # Fetches a hash of up-to-date rates from x-rates.com
+    # Fetches a hash of up-to-date rates from themoneyconverter.com/USD/rss.xml
     def fetch_rates
       rates = {}
       begin
         Timeout.timeout(60) do
-          doc = Hpricot(open('http://www.x-rates.com/d/USD/table.html'))
-          rates = CashHandler::CURRENCIES.inject({}) do |collection, currency|
-            code = currency.first
-            collection[code] = (doc/"a[@href=\"/d/USD/#{code}/graph120.html\"]").html.to_f
-            collection
-          end.update({'USD' => 1.0})
+          doc = Hpricot.XML(open('http://themoneyconverter.com/USD/rss.xml'))
+          (doc/:item).each do |item|
+            country = (item/:title).inner_html.split('/')[0]
+            conversion_match = (item/:description).inner_html[/=.?(\d+\.?\d*)/]
+            # 1 USD country rate 'in USD'
+            rates[country] = 1.0 / $1.to_f
+          end
+          rates.update({'USD' => 1.0})
           persist_rates(rates)
         end
       rescue Exception
