@@ -6,6 +6,7 @@ module CashHandler
     def initialize(options={})
       options = {
         :ttl => 1.day,
+        :force_expire => true,
         :backup_rates_file_location => "#{RAILS_ROOT}/tmp/rates.yml"
       }.merge(options)
 
