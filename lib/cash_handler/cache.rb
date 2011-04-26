@@ -5,10 +5,10 @@ module CashHandler
     attr_accessor :ttl
     
     # Creates the cache with a default TTL (time to live) of 1 day. After this TTL has elapsed, cached values are refreshed
-    def initialize(ttl, backup_rates_file_location)
-      @ttl = ttl
-      @backup_rates_file_location = backup_rates_file_location
-      @expires_at = ttl.from_now
+    def initialize(options)
+      @ttl = options[:ttl]
+      @backup_rates_file_location = options[:backup_rates_file_location]
+      @expires_at = @ttl.from_now
       
       expire
     end

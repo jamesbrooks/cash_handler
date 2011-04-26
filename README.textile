@@ -29,7 +29,7 @@ h2. Usage
   
   # The CashHandler::Cache has a default cache life of one day, this can be overridden in one of two ways
   # Upon creation
-  c = CashHandler::Base.new(30.minutes)
+  c = CashHandler::Base.new(:ttl => 30.minutes)
   
   # During operation
   c.cache.ttl = 30.minutes
@@ -41,7 +41,7 @@ You may configure cash_handler to create a backup file every time it pulls rates
 
 <pre><code>
   # Configure cash_handler to persist rates to our app's log directory
-  c = CacheHandler::Base.new(1.day, "#{RAILS_ROOT}/log/rates_backup.yml")
+  c = CashHandler::Base.new(:backup_rates_file_location => "#{RAILS_ROOT}/tmp/rates.yml")
 </code></pre>
 
 h2. Copyright and License

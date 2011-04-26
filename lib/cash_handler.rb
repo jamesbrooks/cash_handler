@@ -55,9 +55,4 @@ module CashHandler
     'VEF' => 'Venezuelan Bolivar',
     'USD' => 'United States Dollar'
   }
-  
-  class << self
-    def load
-    end
-  end
 end
