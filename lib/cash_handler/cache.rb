@@ -2,11 +2,12 @@ module CashHandler
   
   # Stores a cache of conversion values as rates against the USD
   class Cache
-    attr_accessor :ttl
+    attr_accessor :ttl, :force_expire
     
     # Creates the cache with a default TTL (time to live) of 1 day. After this TTL has elapsed, cached values are refreshed
     def initialize(options)
       @ttl = options[:ttl]
+      @force_expire = options[:force_expire]
       @backup_rates_file_location = options[:backup_rates_file_location]
       @expires_at = @ttl.from_now
       
@@ -16,7 +17,7 @@ module CashHandler
     # Forces an expiry of the cache
     def expire
       @expires_at = ttl.from_now
-      @rates = CashHandler::Parser.new(@backup_rates_file_location).fetch_rates
+      @rates = CashHandler::Parser.new(@backup_rates_file_location, @force_expire).fetch_rates
     end
     
     # Fetches a cached values (and refreshes the cache if it has expired)
